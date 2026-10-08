@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Generator 90.000+ Prompt Konten & Jualan</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fafaf7;--fg:#1d1d1b;--card:#fff;--bd:#e2e0d8;--ac:#0f766e;--mu:#6b6b64}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161615;--fg:#eeeee8;--card:#222220;--bd:#3a3a36;--ac:#2dd4bf;--mu:#a0a099}}
+:root[data-theme="dark"]{--bg:#161615;--fg:#eeeee8;--card:#222220;--bd:#3a3a36;--ac:#2dd4bf;--mu:#a0a099}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:820px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.4rem;margin:0 0 4px}p.s{color:var(--mu);margin:0 0 16px}
+.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:12px}
+select,button{font:inherit;padding:9px 10px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg)}
+button{cursor:pointer}button.p{background:var(--ac);color:#fff;border-color:var(--ac)}
+#tot{font-weight:600;margin:8px 0 12px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.c span{flex:1;overflow-wrap:anywhere}.n{color:var(--mu);font-size:.8rem;min-width:52px}
+.pg{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
+</style></head><body><main>
+<h1>Generator Prompt Konten & Jualan</h1>
+<p class="s">Pilih filter, lalu salin prompt ke ChatGPT, Claude, atau Gemini.</p>
+<div class="f">
+<select id="cat"></select><select id="nic"></select><select id="plt"></select><select id="ton"></select>
+</div>
+<div class="f"><button class="p" id="rnd">🎲 Acak</button><button id="cp">Salin 20 prompt di halaman</button></div>
+<div id="tot"></div><div id="list"></div>
+<div class="pg"><button id="pv">← Sebelumnya</button><span id="pi"></span><button id="nx">Berikutnya →</button></div>
+</main>
+<script>
+const T=[
+["Konten","Buatkan 10 ide konten {p} untuk bisnis {n} dengan gaya {t} yang menarik perhatian di 3 detik pertama."],
+["Konten","Buat kalender konten 30 hari untuk bisnis {n} di {p}, gaya bahasa {t}. Sertakan topik, format, dan CTA per hari."],
+["Konten","Tulis 5 hook pembuka {p} untuk bisnis {n} dengan gaya {t} yang membuat orang berhenti scroll."],
+["Konten","Buat 7 ide konten edukasi {p} untuk bisnis {n} yang menjawab pertanyaan paling sering ditanya pelanggan, gaya {t}."],
+["Konten","Buat 5 ide konten behind the scenes {p} untuk bisnis {n} dengan gaya {t}."],
+["Konten","Buat 10 ide konten tren {p} yang bisa dipakai bisnis {n}, gaya {t}, lengkap dengan cara eksekusinya."],
+["Konten","Buat 5 ide konten testimoni kreatif {p} untuk bisnis {n} dengan gaya {t}."],
+["Konten","Buat 8 ide konten mitos vs fakta {p} seputar bisnis {n}, gaya {t}."],
+["Konten","Buat 6 ide konten before-after {p} untuk bisnis {n} dengan gaya {t}."],
+["Konten","Buat 5 ide konten interaktif (polling, kuis, tanya jawab) {p} untuk bisnis {n}, gaya {t}."],
+["Caption","Tulis 5 caption {p} untuk produk {n} dengan gaya {t}, lengkap dengan CTA dan 5 hashtag relevan."],
+["Caption","Tulis caption {p} bergaya storytelling tentang awal mula usaha {n}, gaya {t}, maksimal 150 kata."],
+["Caption","Tulis 3 caption {p} untuk promo produk {n} dengan teknik AIDA, gaya {t}."],
+["Caption","Tulis 3 caption {p} untuk produk {n} dengan teknik PAS (Problem, Agitate, Solve), gaya {t}."],
+["Caption","Buat 10 pilihan CTA singkat untuk postingan {p} bisnis {n} dengan gaya {t}."],
+["Caption","Buat 20 hashtag {p} yang relevan untuk bisnis {n}, kelompokkan menjadi populer, niche, dan lokal."],
+["Video","Tulis naskah video {p} berdurasi 30 detik untuk produk {n}, gaya {t}, lengkap dengan visual per adegan."],
+["Video","Tulis naskah video {p} berdurasi 60 detik yang membahas 3 tips seputar {n}, gaya {t}."],
+["Video","Buat storyboard video {p} untuk unboxing produk {n} dengan gaya {t}."],
+["Video","Tulis naskah video {p} berformat 'POV' yang relatable untuk pelanggan {n}, gaya {t}."],
+["Video","Buat naskah live selling {p} selama 10 menit pertama untuk produk {n}, gaya {t}."],
+["Ide Jualan","Berikan 10 ide promo kreatif untuk bisnis {n} yang bisa dijalankan di {p}, gaya komunikasi {t}."],
+["Ide Jualan","Buat 5 ide bundling produk {n} yang menaikkan nilai transaksi, lengkap dengan naskah penawaran di {p} dengan gaya {t}."],
+["Ide Jualan","Buat strategi flash sale 24 jam untuk bisnis {n} di {p}, gaya {t}. Sertakan jadwal posting dan naskahnya."],
+["Ide Jualan","Berikan 10 ide giveaway untuk bisnis {n} di {p} yang menambah followers sungguhan, gaya {t}."],
+["Ide Jualan","Buat naskah follow-up chat untuk calon pembeli {n} yang belum closing, gaya {t}, platform {p}."],
+["Ide Jualan","Buat 5 balasan untuk keberatan harga dari pelanggan {n}, gaya {t}, di {p}."],
+["Ide Jualan","Buat program loyalitas sederhana untuk bisnis {n} dan naskah pengumumannya di {p}, gaya {t}."],
+["Ide Jualan","Buat 5 ide upsell dan cross-sell untuk bisnis {n}, naskah penawaran untuk {p}, gaya {t}."],
+["Iklan","Tulis 5 variasi copy iklan {p} untuk produk {n} dengan gaya {t}, masing-masing dengan headline dan CTA."],
+["Iklan","Buat 3 angle iklan berbeda untuk produk {n} di {p}, gaya {t}, beserta target audiensnya."],
+["Iklan","Tulis deskripsi produk {n} yang menjual untuk {p}, gaya {t}, dengan poin keunggulan dan CTA."],
+["Iklan","Buat 10 judul produk yang SEO-friendly untuk {n} di {p}, gaya {t}."],
+["Riset","Buat profil 3 persona pelanggan ideal untuk bisnis {n}, termasuk masalah, keinginan, dan cara menjangkau mereka di {p}."],
+["Riset","Analisis 5 kelemahan umum konten kompetitor bisnis {n} di {p} dan buat ide konten yang mengisinya, gaya {t}."],
+["Riset","Buat 10 pertanyaan survei singkat untuk pelanggan {n} yang bisa disebar lewat {p}, gaya {t}."],
+["Riset","Buat rencana uji coba (A/B test) konten {p} untuk bisnis {n} selama 2 minggu, termasuk metrik yang diukur."]
+];
+const N=["skincare","fashion hijab","makanan rumahan","kedai kopi","jasa desain grafis","kursus online","properti","aksesoris mobil","gadget","perlengkapan bayi","parfum","tas wanita","sepatu lokal","camilan kemasan","frozen food","katering","laundry","barbershop","salon kecantikan","studio kebugaran","toko bunga","toko buku","tanaman hias","aksesoris HP","jasa fotografi","agen travel","hampers","kerajinan tangan","thrift fashion","jamu dan herbal","peralatan dapur","mainan anak","pet shop","jasa pembuatan website","konsultan bisnis","toko roti","minuman boba","hasil pertanian","dropship","jasa edit video"];
+const P=["Instagram Reels","TikTok","Instagram Feed","Facebook","WhatsApp Business","Shopee","YouTube Shorts","Threads"];
+const G=["santai","profesional","lucu","emosional","persuasif","edukatif","penuh urgensi","mewah"];
+const cats=["Semua kategori",...new Set(T.map(x=>x[0]))];
+const $=id=>document.getElementById(id);
+function fill(id,arr,all){$(id).innerHTML=[all,...arr].map((v,i)=>`<option value="${i-1}">${v}</option>`).join("")}
+fill("cat",cats.slice(1),cats[0]);fill("nic",N,"Semua niche");fill("plt",P,"Semua platform");fill("ton",G,"Semua gaya");
+let page=0,S=[];
+function sets(){
+ const c=$("cat").value,n=+$("nic").value,p=+$("plt").value,g=+$("ton").value;
+ const ti=T.map((x,i)=>i).filter(i=>c<0||T[i][0]===cats[+c+1]);
+ const all=a=>a.map((x,i)=>i);
+ S=[ti,n<0?all(N):[n],p<0?all(P):[p],g<0?all(G):[g]];
+}
+function total(){return S.reduce((a,b)=>a*b.length,1)}
+function make(k){
+ let r=k;const g=S[3][r%S[3].length];r=Math.floor(r/S[3].length);
+ const p=S[2][r%S[2].length];r=Math.floor(r/S[2].length);
+ const n=S[1][r%S[1].length];r=Math.floor(r/S[1].length);
+ const t=S[0][r%S[0].length];
+ return T[t][1].replace("{n}",N[n]).replace("{p}",P[p]).replace("{t}",G[g]);
+}
+function stride(tot){let s=7919;const gcd=(a,b)=>b?gcd(b,a%b):a;while(gcd(s,tot)!==1)s++;return s}
+function render(){
+ const tot=total(),per=20,pages=Math.ceil(tot/per),st=stride(tot);
+ page=Math.max(0,Math.min(page,pages-1));
+ $("tot").textContent=tot.toLocaleString("id-ID")+" prompt tersedia";
+ $("pi").textContent="Halaman "+(page+1).toLocaleString("id-ID")+" / "+pages.toLocaleString("id-ID");
+ const el=$("list");el.innerHTML="";window._cur=[];
+ for(let i=0;i<per;i++){
+  const idx=page*per+i;if(idx>=tot)break;
+  const txt=make((idx*st)%tot);window._cur.push(txt);
+  const d=document.createElement("div");d.className="c";
+  const nn=document.createElement("div");nn.className="n";nn.textContent="#"+(idx+1);
+  const sp=document.createElement("span");sp.textContent=txt;
+  const b=document.createElement("button");b.textContent="Salin";
+  b.onclick=()=>copy(txt,b);
+  d.append(nn,sp,b);el.append(d);
+ }
+}
+async function copy(t,b){
+ try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove()}
+ const o=b.textContent;b.textContent="Tersalin ✓";setTimeout(()=>b.textContent=o,1200);
+}
+["cat","nic","plt","ton"].forEach(id=>$(id).onchange=()=>{page=0;sets();render()});
+$("pv").onclick=()=>{page--;render();scrollTo(0,0)};
+$("nx").onclick=()=>{page++;render();scrollTo(0,0)};
+$("rnd").onclick=()=>{page=Math.floor(Math.random()*Math.ceil(total()/20));render();scrollTo(0,0)};
+$("cp").onclick=e=>copy(window._cur.map((x,i)=>(i+1)+". "+x).join("\n\n"),e.target);
+sets();render();
+</script></body></html>
